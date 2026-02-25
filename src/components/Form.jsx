@@ -1,19 +1,12 @@
 import { useState } from "react"
 
-export default function Form({allTodo, setTodos, editTodo, setEditTodo}){
+export default function Form({allTodo, setTodos}){
     const [todo,setTodo]=useState("")
 
     function handleSubmit(e){
         e.preventDefault()
 
-        if(editTodo){
-            setTodos(allTodo.map((item) => 
-                item.id==editTodo ? {...item,text:todo} : item
-            ))
-        }
-        else{
-            setTodos([...allTodo, {id:Date.now(), text:todo, complete:false}])
-        }
+        setTodos([...allTodo, {id:Date.now(), text:todo, complete:false}])
         setTodo("")
        
     }

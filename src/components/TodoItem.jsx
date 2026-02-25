@@ -1,7 +1,16 @@
 import { FaTrash } from "react-icons/fa"
 import { FaEdit } from "react-icons/fa"
+import EditTodo from "./EditTodo"
 
-export default function TodoItem({item, onDelete, onEdit, markDone}){
+export default function TodoItem({item, onDelete, onEdit,handleUpdate, editedTodo, markDone}){
+
+    const isEditing = editedTodo?.id === item.id
+
+    if (isEditing) {
+      return (
+         <EditTodo editedTodo={editedTodo} handleUpdate={handleUpdate}/>
+      )
+    }
 
     return <div className={`flex items-center justify-between 
                 border rounded-xl px-5 py-4 transition-all
@@ -20,7 +29,7 @@ export default function TodoItem({item, onDelete, onEdit, markDone}){
 
                 <div className="flex items-center gap-4 text-neutral-400">
                     <button className="hover:text-red-500 transition cursor-pointer"
-                    onClick={() => onEdit(item.id)}>
+                    onClick={() => onEdit(item)}>
                         <FaEdit />
                     </button>
 

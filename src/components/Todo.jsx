@@ -2,19 +2,25 @@ import { useState } from "react"
 import TodoItem from './TodoItem'
 import Form from "./Form"
 import ListAll from "./ListAll"
+import EditTodo from "./EditTodo"
 
 export default function Todo(){
 
     const [allTodo,setTodos]=useState([])
 
-    const [editTodo,setEditTodo]=useState(null)
+    const [editedTodo, setEditTodo] = useState(null)
+
+    function handleEdit(item){
+        setEditTodo(item)
+    }
+
+    function handleUpdate(id, newText){
+        setTodos(allTodo.map((todo) => todo.id == id ? {...todo,text: newText}: todo))
+        setEditTodo(null)
+    }
     
     function handleDelete(id){               //we wrote the handle delete fn here in parent because state is defined here
         setTodos(allTodo.filter((todo) => todo.id!==id))
-    }
-
-    function handleEdit(id){
-        setEditTodo(id)
     }
 
     function handleDone(id){
@@ -24,10 +30,14 @@ export default function Todo(){
 
     return (
         <div>
-            <Form allTodo={allTodo} setTodos={setTodos} editTodo={editTodo} setEditTodo={setEditTodo} />
+            <Form allTodo={allTodo} setTodos={setTodos} />
 
-            <ListAll allTodo={allTodo} onDelete={handleDelete} onEdit={handleEdit} markDone={handleDone} />      
+            <ListAll allTodo={allTodo} onDelete={handleDelete} 
+            onEdit={handleEdit} markDone={handleDone} handleUpdate={handleUpdate} 
+            editedTodo={editedTodo}/>      
             {/* pass that fn to listall comp */}
+            
         </div>
     )
 }
+
